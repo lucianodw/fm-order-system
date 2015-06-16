@@ -20,12 +20,32 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+      .when('/orders', {
+        templateUrl: 'views/orders.html',
+        controller: 'OrdersCtrl'
+      })
+      .when('/orders/view', {
+        templateUrl: 'views/orders.view.html',
+        controller: 'ViewOrderCtrl'
+      })
+      .when('/orders/edit', {
+        templateUrl: 'views/orders.edit.html',
+        controller: 'OrdersEditCtrl'
+      })
+      .when('/orders/create', {
+        templateUrl: 'views/orders.create.html',
+        controller: 'OrdersCreateCtrl'
+      })
+      .when('/inventory', {
+        templateUrl: 'views/inventory.html',
+        controller: 'InventoryCtrl'
+      })
+      .when('/reports', {
+        templateUrl: 'views/reports.html',
+        controller: 'ReportsCtrl'
       })
       .otherwise({
         redirectTo: '/'

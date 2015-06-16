@@ -1,5 +1,6 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 .browsehappy {
@@ -11,8 +12,12 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 /* Space out content a bit */
 body {
-  padding-top: 20px;
+  padding-top: 50px;
   padding-bottom: 20px;
+}
+
+h4 {
+  font-size: 18px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -35,6 +40,8 @@ body {
     padding-bottom: 19px;
   }
 }
+
+
 
 /* Custom page footer */
 .footer {
@@ -67,11 +74,57 @@ body {
   }
 }
 
+.btn-full {
+  width: 100%;
+}
+
+
+// Form
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+// Orders
+.orders-price-container {
+  margin: 10px 0 20px;
+  padding: 10px;
+  background: #efefef;
+}
+
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
 
   /* Remove the padding we set earlier */
   .header,
@@ -87,5 +140,14 @@ body {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+  }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (max-width: 550px) {
+
+  /* Remove the padding we set earlier */
+  .hidden-mini {
+    display: none;
   }
 }
