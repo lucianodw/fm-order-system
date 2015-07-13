@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'firebase'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -27,11 +28,11 @@ angular
         templateUrl: 'views/orders.html',
         controller: 'OrdersCtrl'
       })
-      .when('/orders/view', {
+      .when('/orders/view/:id', {
         templateUrl: 'views/orders.view.html',
-        controller: 'ViewOrderCtrl'
+        controller: 'OrdersViewCtrl'
       })
-      .when('/orders/edit', {
+      .when('/orders/edit/:id', {
         templateUrl: 'views/orders.edit.html',
         controller: 'OrdersEditCtrl'
       })

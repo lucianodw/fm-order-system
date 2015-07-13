@@ -78,6 +78,20 @@ h4 {
   width: 100%;
 }
 
+// Helpers
+.center {
+  text-align: center;
+}
+
+.input-small {
+    width: 65px;
+}
+
+.padded-row {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 
 // Form
 .form-signin {
@@ -120,6 +134,44 @@ h4 {
   margin: 10px 0 20px;
   padding: 10px;
   background: #efefef;
+}
+
+.filter {
+  font-size: 12px;
+
+  .filter-item {
+    margin: auto 5px;
+  }
+}
+
+// Inventory
+.inventory-create-container {
+    background: #efefef none repeat scroll 0 0;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+
+    table {
+      margin-bottom: 0px;
+    }
+
+    td {
+      border-top: 0px !important;
+    }
+}
+
+.btn-new-inventory {
+    margin-top: 25px;
+}
+
+// Modals
+.status-modal {
+  cursor: pointer;
+}
+
+// Buttons
+.btn-stack {
+  margin: 10px 0;
 }
 
 
