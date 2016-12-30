@@ -3,7 +3,66 @@
 <div class="row marketing">
   <h4>Reports</h4>
 
-  <table class="table table-hover">
+
+  <div class="inventory-create-container col-xs-12">
+    <h4>Filter By:</h4>
+     <table class="table">
+      <tbody>
+        <tr>
+<!--           <td>
+              <label for="item-holiday">Tag</label>
+              <select name="" id="item-holiday" class="form-control"  ng-model="filter.tag">
+                <option value="All">All</option>
+                <option value="Passover">Passover Only</option>
+                <option value="Thanksgiving">Thanksgiving Only</option>
+                <option value="Rosh Hashanah">Rosh Hashanah Only</option>
+              </select>
+          </td> -->
+          <td>
+              <label for="item-holiday">Start Date</label>
+              <input type="text" class="form-control" id="filter-start-date" placeholder="XX/XX/XXXX" ng-model="filter.startDate">
+          </td>
+          <td>
+              <label for="item-holiday">End Date</label>
+              <input type="text" class="form-control" id="filter-end-date" placeholder="XX/XX/XXXX" ng-model="filter.endDate">
+          </td>
+          <td>
+            <a href ng-click="search()" class='btn btn-success btn-new-inventory'>Filter List</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>   
+  </div>
+
+
+  <div class="reports-container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Item #</th>
+          <th>Name</th>
+          <th>Quantity Sold</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in report">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.total}}</td>
+            <td><a href ng-click="previewItem(item)" class="btn btn-info">Preview</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="progress progress-striped active" ng-show="loading">
+        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+        <span class="sr-only"></span>
+        </div>
+    </div>
+  </div>
+
+  <table class="table table-hover hide">
     <thead>
       <tr>
         <th class="col-xs-3">Report Type</th>
@@ -35,4 +94,32 @@
     </tbody>
   </table>
 
+</div>
+
+
+<div class="modal fade" id="previewReport" tabindex="-1" role="dialog" aria-labelledby="previewReport">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body clearfix">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3>{{preview.name}}</h3>
+          <p>Total Orders: {{preview.total}}</p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="col-xs-3">Frequency</th>
+                <th class="col-xs-6">Quantity Ordered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="(key, value) in preview.qtyArray | orderBy">
+                <td> {{value}} </td> <td>  {{key}} </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <a href ng-click="save()" class='btn btn-success btn-new-inventory pull-right'>Save Item</a>
+      </div>
+    </div>
+  </div>
 </div>

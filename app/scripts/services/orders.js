@@ -5,21 +5,40 @@ angular.module('orderSystemApp').factory('orders', ['$firebaseArray', '$firebase
 	
 	// create a reference to the Firebase database where we will store our data
 	var orders = {};
-	var ref = new Firebase("https://vivid-heat-2406.firebaseio.com/orders");
+
+	// PRODUCTION
+	// var baseUrl = "https://vivid-heat-2406.firebaseio.com"
+
+	// STAGING
+	var baseUrl = "https://fmordersystemdev.firebaseio.com"
+
+	var ref = new Firebase(baseUrl+"/orders");
 	var refArray = $firebaseArray(ref);
 
-
-	var refIndex = new Firebase("https://vivid-heat-2406.firebaseio.com/orderIndex");
+	var refIndex = new Firebase(baseUrl+"/orderIndex");
 	var refIndexObj = $firebaseObject(refIndex);
+
 	var singleArray;
+
+	var TAX_RATE = 0.07;
 
 	orders.get = function(){
 		return refArray;
 	};
 
+	orders.getSnapshot = function(){
+		var data;
+
+		ref.once("value", function(snapshot) {
+			data = snapshot.exportVal();
+		});
+
+		return data;
+	}
+
 	orders.getById = function(id){
 		singleArray = $firebaseObject(ref.child(id));
-		return singleArray;
+		return singleArray || [];
 	};
 
 	orders.getIndex = function(){
@@ -41,11 +60,24 @@ angular.module('orderSystemApp').factory('orders', ['$firebaseArray', '$firebase
 	};
 
 	orders.create = function(orderObj){
+		console.log('create service');
 		var deferred = $q.defer();
 
+		var items = [];
+
+		_.each(orderObj.order.items, function(obj){
+			delete obj['$id'];
+			delete obj['$priority'];
+			delete obj['$$hashKey'];
+			console.log(obj);
+			items.push(obj);
+		});
+
+		orderObj.order.items = items;
+		
 		var obj = {
-			id: refIndexObj.id,
-			status: 'Not Started',
+			id: orderObj.order.id,
+			status: 'In Progress',
 			date: orders.currentDate(),
 			user: orderObj.user,
 			order: orderObj.order
@@ -56,7 +88,6 @@ angular.module('orderSystemApp').factory('orders', ['$firebaseArray', '$firebase
 
 			if(!error) {
 				refIndexObj.id++;
-				console.log('New ID: ', refIndexObj.id);
 				refIndexObj.$save();
 			}
 		});
@@ -64,41 +95,39 @@ angular.module('orderSystemApp').factory('orders', ['$firebaseArray', '$firebase
 		return deferred.promise;
 	};
 
-	orders.getPrice = function(cartObj){
-		 var subtotal = 0;
-		 var tax = 10;
-		 var total = 0;
-		 var items = [];
+	orders.updateItem = function(item) {
+		item.price = item.qty * item.unitPrice;
+		return item;
+	}
 
-	        angular.forEach(cartObj, function(obj) {
-	            subtotal += parseInt(obj.qty) *parseInt(obj.price);
-	        });
+	orders.updateTotals = function(fullOrder){
+		console.log(fullOrder);
+		var subtotal = 0;
 
-	       _.each(cartObj, function(obj){
-	        	if(parseInt(obj.qty) > 0) {
-	        		var newObj = {
-		        		name: obj.name,
-					id: obj.id,
-					category: obj.category,
-					unit: obj.unit,
-					price: obj.price,
-					qty: obj.qty
-	        		}
+		_.each(fullOrder.order.items, function(item){
+			if(typeof item.price == 'number') {
+				subtotal += item.price;
+			}
+		});
+		
+		fullOrder.order.tax = subtotal * TAX_RATE;
+		fullOrder.order.subtotal = subtotal;
+		fullOrder.order.total = fullOrder.order.tax + fullOrder.order.subtotal;
 
-	        		items.push(newObj);
-	        	}
-	        });
+		return fullOrder;
+	}
 
-	        total = tax + subtotal;
-
-	        var obj = {
-	        	items: items,
-	        	subtotal: subtotal,
-	        	tax: tax,
-	        	total: total
-	        }
-
-	        return obj;
+	orders.updateTotalsOnly = function(orderObj) {
+		if(orderObj.userSubtotal > 0) {
+			orderObj.tax = orderObj.userSubtotal * TAX_RATE;
+			orderObj.total = parseFloat(orderObj.userSubtotal) + parseFloat(orderObj.tax);
+			
+		} else {
+			orderObj.total = 0;
+			orderObj.tax = 0;
+		}
+		
+		return orderObj;
 	}
 
 	orders.currentDate = function(){

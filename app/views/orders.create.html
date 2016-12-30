@@ -1,96 +1,263 @@
 
 <div class="row marketing">
-	<!-- Header Start -->
-	<div class="row section-header">
-		 <h4 class="col-xs-6">Create Order</h4>
-		 <div class="col-xs-6">
-		 	<a href="#/orders" class="pull-right">Back to Orders</a>
-		 </div>
-	</div>
-	<!-- Errors End -->
+	<form name="create_form" novalidate ng-submit="create()" accessible-form>
+		<!-- Header Start -->
+		<div class="row section-header">
+			 <h4 class="col-xs-6">Create Order - # <input type="text"  class="form-control input-small" ng-model="data.order.id"  name="id" required/></h4>
 
-	<hr>
-
-	<div class="row clearfix">
-	  <div class="form-group col-xs-12 col-sm-6">
-	    <label for="first-name">First Name</label>
-	    <input type="text" class="form-control" id="first-name" placeholder="First Name" ng-model='user.firstName'>
-	  </div>
-	  <div class="form-group col-xs-12 col-sm-6">
-	    <label for="last-name">Last Name</label>
-	    <input type="text" class="form-control" id="last-name" placeholder="Last Name" ng-model='user.lastName'>
-	  </div>
-	  <div class="form-group col-xs-12 col-sm-6">
-	    <label for="address">Address</label>
-	    <input type="text" class="form-control" id="address" placeholder="Address" ng-model='user.address'>
-	  </div>
-	  <div class="form-group col-xs-12 col-sm-6">
-	    <label for="phone-number">Phone Number</label>
-	    <input type="text" class="form-control" id="phone-number" placeholder="Phone Number" ng-model='user.phone'>
-	  </div>
-	  <div class="form-group col-xs-12 col-sm-6">
-	    <label for="order-type">Order Type</label>
-	    <input type="text" class="form-control" id="order-type" placeholder="Order Type"  ng-model='user.tag'>
-	  </div>
-	</div>
-	<hr>
-
-	<div class="col-xs-12 col-sm-6">
-		<table class="table table-hover">
-		  <thead>
-		    <tr>
-		      <th>Item Name</th>
-		      <th>Unit Cost</th>
-		      <th>Quantity</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr ng-repeat="item in items">
-		      <th>{{item.name}}</th>
-		      <td>${{item.price}}</td>
-		      <td class="col-xs-2">
-			    	<input type="text" class="form-control" class="item" placeholder="0" ng-change="updatePrice()" ng-model="cart[$index].qty">
-		      </td>
-		    </tr>
-		  </tbody>
-		</table>
-	</div>
-
-	<div class="col-xs-12 col-sm-6">
-		<table class="table table-hover">
-		  <thead>
-		    <tr>
-		      <th>Item Name</th>
-		      <th>Unit Cost</th>
-		      <th>Quantity</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-		      <th>Sample Item Goes Here</th>
-		      <td>$100</td>
-		      <td class="col-xs-2">
-			    	<input type="text" class="form-control" class="item" placeholder="0">
-		      </td>
-		    </tr>
-		  </tbody>
-		</table>
-	</div>
-
-	<div class="col-xs-12">
-		<div class="orders-price-container  col-xs-12 col-sm-4 pull-right">
-			<div class='col-xs-7'>Subtotal</div>
-			<div class="col-xs-5">${{order.subtotal}}</div>
-			<div class='col-xs-7'>Tax</div>
-			<div class="col-xs-5">${{order.tax}}</div>
-			<div class='col-xs-7'><strong>Total</strong></div>
-			<div class="col-xs-5"><strong>${{order.total}}</strong></div>
+		    	<div class="error" ng-show="create_form.id.$invalid && create_form.submitted">
+			    <small class="error" ng-show="create_form.id.$error.required">
+			        Order number is required.
+			    </small>
+		  	</div>	
+			 <div class="col-xs-6">
+			 	<a href="#/orders" class="pull-right">Back to Orders</a>
+			 </div>
 		</div>
-	</div>
+		<!-- Errors End -->
 
-	<div class="col-xs-12">
-	  <a href ng-click="create()" class="btn btn-success pull-right">Submit</a>
-	</div>
+		<hr>
+		<div class="row clearfix">
+		  <div class="form-group col-xs-12 col-sm-6">
+		    	<label for="first-name">First Name</label>
+		    	<input type="text" class="form-control" id="first-name" name="fname" placeholder="First Name" ng-model='data.user.firstName' required>
+		    	<div class="error" ng-show="create_form.fname.$invalid && create_form.submitted">
+			    <small class="error" ng-show="create_form.fname.$error.required">
+			        First name is required.
+			    </small>
+		  	</div>	
+		  </div>
+		  <div class="form-group col-xs-12 col-sm-6">
+		    <label for="last-name">Last Name</label>
+		    <input type="text" class="form-control" id="last-name" name="lname"  placeholder="Last Name" ng-model='data.user.lastName' required>
+
+		    	<div class="error" ng-show="create_form.lname.$invalid && create_form.submitted">
+			    <small class="error" ng-show="create_form.lname.$error.required">
+			        Last name is required.
+			    </small>
+		  	</div>	
+		  </div>
+		  <div class="form-group col-xs-12 col-sm-6">
+		    <label for="address">Address</label>
+		    <input type="text" class="form-control" id="address" placeholder="Address" ng-model='data.user.address'>
+		  </div>
+		  <div class="form-group col-xs-12 col-sm-6">
+		    <label for="phone-number">Phone Number</label>
+		    <input type="text" class="form-control" id="phone-number" placeholder="Phone Number" ng-model='data.user.phone' maxlength="10">
+		  </div>
+		  <div class="form-group col-xs-12 col-sm-6">
+		    <label for="order-type">Order Type</label>
+		    <select name="" id="order-type" class="form-control"  ng-model="data.user.tag" ng-change="updateTag()"  name="tag" >
+		    	<option value="">-----</option>
+		    	<option value="Passover">Passover</option>
+		    	<option value="Thanksgiving">Thanksgiving</option>
+		    	<option value="Rosh Hashanah">Rosh Hashanah</option>
+		    </select>	
+		  </div>
+		  <div class="form-group col-xs-12 col-sm-6">
+		    <label for="order-type">Special Instructions</label>
+		    <input type="textarea" class="form-control" id="special-instructions" placeholder="Special Instructions" ng-model='data.user.instructions'/>
+		  </div>
+		</div>
+		<hr>
+		<div class="col-xs-12 col-sm-6"  ng-show="data.user.tag">
+			<div class="complete-dinners">
+				<h4>Complete Dinners</h4>
+				<table class="table table-hover">
+				  <thead>
+				    <tr>
+				      <th class='col-xs-3 col-sm-2'>Quantity</th>
+				      <th class='col-xs-5 col-sm-4'>Item Name</th>
+				      <th class='col-xs-2 col-sm-3'>Cost</th>
+				      <th class='col-xs-2 col-sm-3'>Ext. Cost</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr ng-repeat="item in data.order.items | filter: filter.full " class="order-list ng-class: {'active' : item.qty > 0}">
+
+				      <td class="col-xs-2">
+				      		<a class="btn col-xs btn-default cart-qty-remove" href ng-click="updateItem('remove', item.id)"><i class="fa fa-minus-square"></i></a>
+					    	<input type="text" class="form-control input-sm cart-qty" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.qty">
+				      		<a class="btn btn-small btn-default cart-qty-add" href ng-click="updateItem('add', item.id)"><i class="fa fa-plus-square"></i></a>
+				      </td>
+
+				      <td>
+				      		{{item.name}}<br/>
+				      		<small ng-show="item.description">Notes: {{item.description}}</small>
+				      	</td>
+
+				      <td ng-show="!item.descriptionFlag">
+				      		<input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.unitPrice">
+				      	</td>
+
+				      <td ng-show="!item.descriptionFlag">
+				      		<input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.price"><br/>
+					      	<a href ng-click="item.descriptionFlag = true" ng-show="!item.description">+ Add Notes</a>
+					      	<a href ng-click="item.descriptionFlag = true" ng-show="item.description">+ Edit Notes</a>
+					</td>
+
+				       <td colspan="2" ng-show="item.descriptionFlag">
+					      	<textarea rows="2" class="form-control" ng-model="item.description" placeholder="Add details..."></textarea><br/>
+					      	<a href class="btn btn-success" ng-click="item.descriptionFlag = false">Save & Close</a> 
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>	
+			</div>
+			<div class="single-item">
+				<table class="table table-hover">
+				  <thead>
+				    <tr>
+				      <th class='col-xs-3 col-sm-2'>Quantity</th>
+				      <th class='col-xs-5 col-sm-4'>Item Name</th>
+				      <th class='col-xs-2 col-sm-3'>Cost</th>
+				      <th class='col-xs-2 col-sm-3'>Ext. Cost</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr ng-repeat="item in data.order.items | filter: filter.single " class="order-list ng-class: {'active' : item.qty > 0}">
+
+				      <td class="col-xs-2">
+				      		<a class="btn col-xs btn-default cart-qty-remove" href ng-click="updateItem('remove', item.id)"><i class="fa fa-minus-square"></i></a>
+					    	<input type="text" class="form-control input-sm cart-qty" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.qty">
+				      		<a class="btn btn-small btn-default cart-qty-add" href ng-click="updateItem('add', item.id)"><i class="fa fa-plus-square"></i></a>
+				      </td>
+
+				      <td>
+				      		{{item.name}}<br/>
+				      		<small ng-show="item.description">Notes: {{item.description}}</small>
+				      	</td>
+
+				      <td ng-show="!item.descriptionFlag">
+				      		<input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.unitPrice">
+				      	</td>
+
+				      <td ng-show="!item.descriptionFlag">
+				      		<input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.price"><br/>
+					      	<a href ng-click="item.descriptionFlag = true" ng-show="!item.description">+ Add Notes</a>
+					      	<a href ng-click="item.descriptionFlag = true" ng-show="item.description">+ Edit Notes</a>
+					</td>
+
+				       <td colspan="2" ng-show="item.descriptionFlag">
+					      	<textarea rows="2" class="form-control" ng-model="item.description" placeholder="Add details..."></textarea><br/>
+					      	<a href class="btn btn-success" ng-click="item.descriptionFlag = false">Save & Close</a> 
+				      </td>
+				      	</tr ng-show="$index == 5">
+					  </tbody ng-show="$index == 5">
+					</table ng-show="$index == 5">	
+				    </tr>
+				  </tbody>
+				</table>	
+			</div>
+			
+			<!-- <div class="single-item">
+				<table class="table table-hover">
+				  <thead>
+				    <tr>
+				      <th class='col-xs-3 col-sm-2'></th>
+				      <th class='col-xs-5 col-sm-4'></th>
+				      <th class='col-xs-2 col-sm-3'></th>
+				      <th class='col-xs-2 col-sm-3'></th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  <tr ng-repeat="item in data.order.items | filter: filter.single" class="order-list ng-class: {'active' : item.qty > 0}">
+
+				      <td class="col-xs-2">
+				      		<a class="btn col-xs btn-default cart-qty-remove" href ng-click="updateItem('remove', item.id)"><i class="fa fa-minus-square"></i></a>
+					    	<input type="text" class="form-control input-sm cart-qty" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.qty">
+				      		<a class="btn btn-small btn-default cart-qty-add" href ng-click="updateItem('add', item.id)"><i class="fa fa-plus-square"></i></a>
+				      </td>
+
+				      <td>
+				      		{{item.name}}<br/>
+				      		<small ng-show="item.description">Notes: {{item.description}}</small>
+				      	</td>
+
+				      <td ng-show="!item.descriptionFlag">
+				      		<input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.unitPrice">
+				      	</td>
+
+				      <td ng-show="!item.descriptionFlag">
+				      		<input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.price"><br/>
+					      	<a href ng-click="item.descriptionFlag = true" ng-show="!item.description">+ Add Notes</a>
+					      	<a href ng-click="item.descriptionFlag = true" ng-show="item.description">+ Edit Notes</a>
+					</td>
+					
+				       <td colspan="2" ng-show="item.descriptionFlag">
+					      	<textarea rows="2" class="form-control" ng-model="item.description" placeholder="Add details..."></textarea><br/>
+					      	<a href class="btn btn-success" ng-click="item.descriptionFlag = false">Save & Close</a> 
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>	
+			</div>
+			
+				  </tbody>
+				</table>				
+			</div> -->
+		</div>
+
+<!-- 		<div class="col-xs-12 col-sm-6" ng-show="user.tag">
+			<div class="single-item">
+				<table class="table table-hover">
+				  <thead>
+				    <tr>
+				      <th class='col-xs-3 col-sm-2'>Quantity</th>
+				      <th class='col-xs-5 col-sm-4'>Item Name</th>
+				      <th class='col-xs-2 col-sm-3'>Cost</th>
+				      <th class='col-xs-2 col-sm-3'>Ext. Cost</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr ng-repeat="item in items | filter: filter.single | myLimitTo:limit.half2:limit.half1  | holidayFilter: user.tag" class="order-list ng-class: {'active' : item.qty > 0}">
+				      <td class="col-xs-2">
+				      		<a class="btn btn-small btn-default cart-qty-remove" href ng-click="updateItem('remove', item.id)"><i class="fa fa-minus-square"></i></a>
+					    	<input type="text" class="form-control input-sm cart-qty" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.qty">
+				      		<a class="btn btn-small btn-default cart-qty-add" href ng-click="updateQty('add', items.indexOf(item))"><i class="fa fa-plus-square"></i></a>
+				      </td>
+				      <td ng-show="{{item.name.length}}">{{item.name}}<br/>
+				      	<small ng-show="item.description">Notes: {{item.description}}</small></td>
+				      <td ng-show="{{!item.name.length}}"><input type="text" class="form-control" class="item" placeholder="Enter Item Name" ng-change="updateItem('update', item.id)" ng-model="item.name"></td>
+				      <td ng-show="!item.descriptionFlag"><input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.unitPrice"></td>
+				      <td ng-show="!item.descriptionFlag"><input type="text" class="form-control input-sm" class="item" placeholder="0" ng-change="updateItem('update', item.id)" ng-model="item.price"><br/>
+				      	<a href ng-click="item.descriptionFlag = true" ng-show="!item.description">+ Add Notes</a>
+				      	<a href ng-click="item.descriptionFlag = true" ng-show="item.description">+ Edit Notes</a></td>
+				      <td colspan="2" ng-show="item.descriptionFlag">
+				      	<textarea rows="2" class="form-control" ng-model="item.description" placeholder="Add details..."></textarea><br/>
+				      	<a href class="btn btn-success" ng-click="item.descriptionFlag = false">Save & Close</a> 
+				      </td>
+				    </tr>
+				  </tbody>
+				</table>				
+			</div>
+
+			<div class="new-item">
+				<a href  ng-click="newItem()" class="btn btn-full btn-info">Add New Item</a>
+			</div>
+		</div> -->
+
+		<div class="col-xs-12">
+			<div class="orders-price-container  col-xs-12 col-sm-5 pull-right">
+				<div class='col-xs-7'>Subtotal</div>
+				<div class="col-xs-5"><input type="text" class="form-control"  placeholder="${{data.order.subtotal | number: 2}}" ng-change="updateTotal()" ng-model="data.order.userSubtotal"  name="subtotal" required>
+			    	<div class="error" ng-show="create_form.subtotal.$invalid && create_form.submitted">
+				    <small class="error" ng-show="create_form.subtotal.$error.required">
+				        Enter subtotal
+				    </small>
+			  	</div>	
+				</div>
+				<div class='pad-top-10 col-xs-7'>Tax</div>
+				<div class="pad-top-10 col-xs-5">${{data.order.tax | number: 2}}</div>
+				<div class='col-xs-7'><strong>Total</strong></div>
+				<div class="col-xs-5"><strong>${{data.order.total | number: 2}}</strong></div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+		  <button type="submit"  class="btn btn-success pull-right">Submit</button>
+		</div>
+	</form>
 </div>
 
 <!-- Modals -->
@@ -101,7 +268,19 @@
         	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       		<h3 class="center">Successfully Added!</h3>
         	<a href class="btn btn-success btn-stack col-xs-12" class="close" data-dismiss="modal" >Create New Order</a>
-        	<a href class="btn btn-info btn-stack col-xs-12">View Orders</a>
+        	<a href class="btn btn-info btn-stack col-xs-12" ng-click="goToOrders()">View Orders</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="successModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body clearfix">
+        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      		<h3 class="center">Oh No! Seems you missed a required field.</h3>
+        	<a href class="btn btn-info btn-stack col-xs-12" class="close" data-dismiss="modal" >Fix the form</a>
       </div>
     </div>
   </div>

@@ -6,14 +6,27 @@ angular.module('orderSystemApp').factory('inventory', ['$firebaseArray', '$fireb
 	// create a reference to the Firebase database where we will store our data
 	var items = {};
 
-	var ref = new Firebase("https://vivid-heat-2406.firebaseio.com/inventory");
+	// PRODUCTION
+	// var baseUrl = "https://vivid-heat-2406.firebaseio.com"
+
+	// STAGING
+	var baseUrl = "https://fmordersystemdev.firebaseio.com"
+
+	var ref = new Firebase(baseUrl+"/inventory");
+	
+	
 	var refArray = $firebaseArray(ref);
 
-	var refIndex = new Firebase("https://vivid-heat-2406.firebaseio.com/inventoryIndex");
+	var refIndex = new Firebase(baseUrl+"/inventoryIndex");
 	var refIndexObj = $firebaseObject(refIndex);
 
 	items.get = function(){
 		return refArray;
+	};
+
+	items.getByHoliday = function(holiday) {
+		var refHoliday = $firebaseArray(ref.orderByChild('holiday').equalTo(holiday));
+		return refHoliday;
 	};
 
 	items.getIndex = function(){
@@ -25,9 +38,32 @@ angular.module('orderSystemApp').factory('inventory', ['$firebaseArray', '$fireb
 		return singleArray;
 	};
 
+	items.getEmptyItem = function(id){
+		var obj = {
+			name: '',
+			id: 'custom',
+			unit: '',
+			category: '',
+			holiday: '',
+			description: '',
+			qty: 0
+		};
+
+		return obj;
+	};
+
 	items.save = function(items, index){
 		refArray[index] = items[index];
 		refArray.$save(index);
+	};
+
+
+	items.saveAll = function(items){
+		_.each(items, function(obj, index){
+			refArray[index] = items[index];
+			refArray.$save(index);
+		});
+		
 	};
 
 	items.removeById = function(id){
@@ -40,9 +76,9 @@ angular.module('orderSystemApp').factory('inventory', ['$firebaseArray', '$fireb
 		var obj = {
 				name: itemObj.name,
 				id: refIndexObj.id,
-				category: itemObj.category,
 				unit: itemObj.unit,
-				price: itemObj.price,
+				category: itemObj.category,
+				holiday: itemObj.holiday,
 				qty: 0
 			}
 
@@ -51,7 +87,6 @@ angular.module('orderSystemApp').factory('inventory', ['$firebaseArray', '$fireb
 
 			if(!error) {
 				refIndexObj.id++;
-				console.log('New ID: ', refIndexObj.id);
 				refIndexObj.$save();
 			}
 		});

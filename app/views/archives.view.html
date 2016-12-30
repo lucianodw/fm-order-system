@@ -43,8 +43,8 @@
 				<tr ng-repeat="inventory in item.order.items">
 					<td>{{inventory.name}}<br/><small ng-show="inventory.description">Notes: {{inventory.description}}</small></td>
 					<td>{{inventory.qty}}</td>
-					<td>${{inventory.unitPrice | number: 2}}</td>
-					<td>${{inventory.price | number: 2}}</td>
+					<td>${{inventory.price}}</td>
+					<td>${{inventory.qty * inventory.price}}</td>
 				</tr>
 			</tbody>
 		</table>

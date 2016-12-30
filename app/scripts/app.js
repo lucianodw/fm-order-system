@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase'
+    'firebase',
+    'orderFilters'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -48,7 +49,19 @@ angular
         templateUrl: 'views/reports.html',
         controller: 'ReportsCtrl'
       })
+      .when('/archives', {
+        templateUrl: 'views/archives.html',
+        controller: 'ArchivesCtrl'
+      })
+      .when('/archives/view/:id', {
+        templateUrl: 'views/archives.view.html',
+        controller: 'ArchivesViewCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
   });
+
+  $(function() {
+    FastClick.attach(document.body);
+});

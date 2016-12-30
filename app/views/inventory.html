@@ -14,15 +14,6 @@
 					    <input type="text" class="form-control" id="item-name" placeholder="Item Name" ng-model="newItem.name">
 					</td>
 					<td>
-					    <label for="item-category">Category</label>
-					    <select name="" id="item-category" class="form-control"  ng-model="newItem.category">
-					    	<option value="">-----</option>
-					    	<option value="Sandwich">Sandwich</option>
-					    	<option value="Soup">Soup</option>
-					    	<option value="Deli Meat">Deli Meat</option>
-					    	<option value="Hot Food">Hot Food</option>
-					    </select>					</td>
-					<td>
 					    <label for="item-unit">Unit</label>
 					    <select name="" id="item-unit" class="form-control"  ng-model="newItem.unit">
 					    	<option value="">-----</option>
@@ -33,8 +24,20 @@
 					    </select>
 					</td>
 					<td>
-					    <label for="item-price">Unit Cost</label>
-					    <input type="text" class="form-control" id="item-price" placeholder="Item Price" ng-model="newItem.price">
+					    <label for="item-category">Category</label>
+					    <select name="" id="item-category" class="form-control"  ng-model="newItem.category">
+					    	<option value="">-----</option>
+					    	<option value="Full">Full Dinner</option>
+					    	<option value="Single">Single Item</option>
+					    </select>
+					</td>
+					<td>
+					    <label for="item-holiday">Holiday</label>
+					    <select name="" id="item-holiday" class="form-control"  ng-model="newItem.holiday">
+					    	<option value="Passover">Passover Only</option>
+					    	<option value="Thanksgiving">Thanksgiving Only</option>
+					    	<option value="Rosh Hashanah">Rosh Hashanah Only</option>
+					    </select>
 					</td>
 					<td>
 						<a href ng-click="add()" class='btn btn-success btn-new-inventory'>Add Item</a>
@@ -43,30 +46,49 @@
 			</tbody>
 		</table>   
 	</div>
+	<div class="row padded-row clearfix">
+ 		<div class="col-xs-9">
+
+ 			<div class="filter">
+	 				<span class="filter-item">Filter By:</span>
+	 				<a class="filter-item" href ng-click="filter.holiday = ''">All</a>
+	 				<a class="filter-item" href ng-click="filter.holiday = 'Passover'">Passover</a>
+	 				<a class="filter-item" href ng-click="filter.holiday = 'Thanksgiving'">Thanksgiving</a>
+	 				<a class="filter-item" href ng-click="filter.holiday = 'Rosh Hashanah'">Rosh Hashanah</a>
+
+
+ 			</div>
+
+ 		</div>
+ 		<div class="col-xs-3">
+ 			<input type="text" ng-model="filterText" class="form-control" placeholder="Search">
+ 		</div>
+ 	</div>
+
 	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th class='hidden-xs'>Item #</th>
 				<th>Name</th>
-				<th class='hidden-xs'>Category</th>
 				<th class='hidden-xs'>Unit</th>
-				<th>Unit Cost</th>
+				<th class='hidden-xs'>Category</th>
+				<th class='hidden-xs'>Holiday</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in items">
-				<th class='hidden-xs'>{{item.id}}</th>
+			<tr ng-repeat="item in items | filter: filterText | filter: filter">
+				<th class='hidden-xs'>{{item.id}} <a href class="btn btn-default" ng-click="moveUp(item.id)" ng-show="!$first"><i class="fa fa-arrow-up"></i></a> <a href class="btn btn-default" ng-click="moveDown(item.id)" ng-show="!$last"><i class="fa fa-arrow-down"></i></a> </th>
 				<td>{{item.name}}</td>
-				<td class='hidden-xs'>{{item.category}}</td>
 				<td class='hidden-xs'>{{item.unit}}</td>
-				<td><input type="text" class="form-control input-small" value="{{item.price}}" ng-model="items[$index].price"></td>
+				<td class='hidden-xs'>{{item.category}}</td>
+				<td class='hidden-xs'>{{item.holiday}}</td>
 				<td>
-					<a href class='btn btn-info' ng-click="save($index)">
-			      			<span class="hidden-xs">Save</span>
+					<a href class='btn btn-info' ng-click="edit(items.indexOf(item), item)">
+			      			<span class="hidden-xs">Edit</span>
 			      			<span class="visible-xs"><i class="fa fa-save"></i></span>
 					</a> 
-					<a href class='btn btn-danger' ng-click="remove($index)">
+					<a href class='btn btn-danger' ng-click="remove(items.indexOf(item))">
 			      			<span class="hidden-xs">Remove</span>
 			      			<span class="visible-xs"><i class="fa fa-close"></i></span></a>
 				</td>
@@ -80,3 +102,56 @@
 	    </div>
 	</div>
 </div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body clearfix">
+        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      		<h3>Edit Item</h3>
+
+		 <table class="table">
+			<tbody>
+				<tr>
+					<td>
+					    <label for="item-name">Item Name</label>
+					    <input type="text" class="form-control" id="item-name" placeholder="Item Name" ng-model="editItem.name">
+					</td>
+					<td>
+					    <label for="item-unit">Unit</label>
+					    <select name="" id="item-unit" class="form-control"  ng-model="editItem.unit">
+					    	<option value="">-----</option>
+					    	<option value="LB">Pound</option>
+					    	<option value="Foot">Foot</option>
+					    	<option value="Tray">Tray</option>
+					    	<option value="Special">Special</option>
+					    </select>
+					</td>
+				</tr>
+				<tr class="no-border">
+					<td>
+					    <label for="item-category">Category</label>
+					    <select name="" id="item-category" class="form-control"  ng-model="editItem.category">
+					    	<option value="">-----</option>
+					    	<option value="Full">Full Dinner</option>
+					    	<option value="Single">Single Item</option>
+					    </select>
+					</td>
+					<td>
+					    <label for="item-holiday">Holiday</label>
+					    <select name="" id="item-holiday" class="form-control"  ng-model="editItem.holiday">
+					    	<option value="Passover">Passover</option>
+					    	<option value="Thanksgiving">Thanksgiving</option>
+					    	<option value="Rosh Hashanah">Rosh Hashanah</option>
+					    </select>
+					</td>
+				</tr>
+			</tbody>
+		</table>   
+        	<a href ng-click="save()" class='btn btn-success btn-new-inventory pull-right'>Save Item</a>
+      </div>
+    </div>
+  </div>
+</div>
+

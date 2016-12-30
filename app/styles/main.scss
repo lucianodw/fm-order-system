@@ -1,6 +1,7 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "fontawesome/scss/font-awesome.scss";
 // endbower
 
 .browsehappy {
@@ -12,7 +13,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 /* Space out content a bit */
 body {
-  padding-top: 50px;
   padding-bottom: 20px;
 }
 
@@ -41,7 +41,15 @@ h4 {
   }
 }
 
+.navbar {
+  border-radius: 0px;
+}
 
+.table > thead > tr > td.active, .table > thead > tr > th.active, .table > thead > tr.active > td, .table > thead > tr.active > th, .table > tbody > tr > td.active, .table > tbody > tr > th.active, .table > tbody > tr.active > td, .table > tbody > tr.active > th, .table > tfoot > tr > td.active, .table > tfoot > tr > th.active, .table > tfoot > tr.active > td, .table > tfoot > tr.active > th {
+  background: #c5e0e8;
+}
+
+.error {color: red;}
 
 /* Custom page footer */
 .footer {
@@ -78,6 +86,17 @@ h4 {
   width: 100%;
 }
 
+.pad-top-10 {
+  padding-top: 10px;
+}
+
+.no-border {
+  border: 0px !important;
+
+  td {
+    border: 0px !important
+  }
+}
 // Helpers
 .center {
   text-align: center;
@@ -130,6 +149,12 @@ h4 {
 }
 
 // Orders
+.section-header {
+  input {
+    display: inline;
+  }
+}
+
 .orders-price-container {
   margin: 10px 0 20px;
   padding: 10px;
@@ -142,6 +167,62 @@ h4 {
   .filter-item {
     margin: auto 5px;
   }
+}
+
+.cart-qty {
+  width: 34px;
+  display: inline;
+  text-align: center;
+  padding: 3px;
+  border-radius: 0px;
+}
+
+.input-description {
+  margin-top: 10px
+}
+
+.input-description {
+    margin-left: -115px;
+    margin-top: 10px;
+    width: 214px;
+}
+
+.cart-qty-remove {
+  border-radius: 5px 5px 0 0;
+}
+
+.cart-qty-add {
+  border-radius:  0 0 5px 5px;
+}
+
+.cart-qty-add, .cart-qty-remove {
+  padding: 5px 10px;
+  background: #efefef;
+
+  .fa {
+    color: #7392a6;
+  }
+}
+
+.complete-dinners {
+  border: 2px solid #777;
+  h4 {
+    text-align: center;
+  }
+}
+
+.order-list {
+  &.active {
+    background: red;
+  }
+}
+
+.delete-order {
+  margin-top: 20px;
+}
+
+.no-active {
+  text-align: center;
 }
 
 // Inventory
@@ -175,8 +256,33 @@ h4 {
 }
 
 
+// Reports
+.reports-cta {
+  background: #eee;
+}
+
+
+
+
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media (min-width: 968px) {
+
+
+.input-description {
+    margin-left: -115px;
+    margin-top: 10px;
+    width: 214px;
+}
+
+}
+
+/* Responsive: Portrait tablets and up */
+@media (min-width: 768px) {
+.input-description {
+    margin-left: -80px;
+    margin-top: 10px;
+    width: 114px;
+}
 
   /* Remove the padding we set earlier */
   .header,
@@ -197,7 +303,11 @@ h4 {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (max-width: 550px) {
-
+.input-description {
+    margin-left: -80px;
+    margin-top: 10px;
+    width: 114px;
+}
   /* Remove the padding we set earlier */
   .hidden-mini {
     display: none;
